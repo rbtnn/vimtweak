@@ -7,11 +7,24 @@ let s:dest_path = expand(fnamemodify(v:progpath, ':h') .. '/' .. getpid() .. '-'
 
 augroup vimtweak
 	autocmd!
-	autocmd VimEnter * :silent! call writefile(readfile(s:src_path, 'b'), s:dest_path, 'b')
-	autocmd VimLeave * :silent! call delete(s:dest_path)
+	autocmd VimEnter * :silent! call s:VimEnter()
+	autocmd VimLeave * :silent! call s:VimLeave()
 augroup END
 
+function! s:VimEnter() abort
+	if !filereadable(s:dest_path)
+		call writefile(readfile(s:src_path, 'b'), s:dest_path, 'b')
+	endif
+endfunction
+
+function! s:VimLeave() abort
+	if filereadable(s:dest_path)
+		call delete(s:dest_path)
+	endif
+endfunction
+
 function! s:libcallnr(funcname, arg1) abort
+	call s:VimEnter()
 	call libcallnr(s:dest_path, a:funcname, a:arg1)
 endfunction
 
