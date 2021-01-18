@@ -4,10 +4,6 @@
 
 This is a tweaking dll for GVim.
 
-## Install
-
-copy {msvc,mingw}/vimtweak32.dll or {msvc,mingw}/vimtweak64.dll into same directory with gvim.exe
-
 ## Usage
 
 ### Alpha Window
